@@ -27,7 +27,7 @@ def docmd(cmd):
     execute=subprocess.Popen([cmd],shell=True,stdout=subprocess.PIPE)
     return execute.communicate()[0]
 
-def exportvm(vmname,lvdev,destfile,gz=False):
+def exportvm(vmname,lvdev,destfile,gz=false):
     """
     export lvdev to dest
     """
@@ -87,7 +87,7 @@ def exportvm(vmname,lvdev,destfile,gz=False):
     else:
         print('ERROR: vm status:',vmstatus,'vm needs to be halted to migrate')
 
-def importvm(lvdest,sourcefile,vgdest,lvsize,gz=False):
+def importvm(lvdest,sourcefile,vgdest,lvsize,gz=false):
     """
     import a raw vmfile into a logical volume
     """
@@ -143,7 +143,7 @@ def importvm(lvdest,sourcefile,vgdest,lvsize,gz=False):
     else:
         print('ERROR: logical volume '+lvdest+' exists')
 
-def importxenserverdisk(sourcefile,diskuuid,vmuuid,gz=False):
+def importxenserverdisk(sourcefile,diskuuid,vmuuid,gz=false):
     """
     import disk from sourcefile into xenserver
     """
@@ -284,7 +284,7 @@ def getvmuuid(vmname):
     except IndexError:
         return 'vm not found'
 
-def reftoraw(refdir,rawfile,gz=False):
+def reftoraw(refdir,rawfile,gz=false):
     """
     take the ref directory of an xva file and create a raw importable file
     """
@@ -396,20 +396,20 @@ def vmdktoraw(vmdkfile,rawfile,gz):
 if __name__=='__main__':
     # globals
     global debug
-    debug=False
+    debug=false
     # Hello world
     print('xenmigrate 0.7.4 -- 2011.09.13\n(c)2011 Jolokia Networks and Mark Pace -- jolokianetworks.com\n')
     # process arguments
     from optparse import OptionParser
     parser=OptionParser(usage='%prog [-cdhiltvxz] [vmname]|[exportLVdev]|[importVolGroup]|[importdiskuuid]|[converttofile]')
     parser.add_option('-c','--convert',action='store',type='string',dest='convert',metavar='DIR',help='convert DIR or vmdk to importable rawfile')
-    parser.add_option('-d','--disk',action='store_true',dest='disk',help='display vm disk uuids',default=False)
-    parser.add_option('--debug',action='store_true',dest='debug',help='display debug info',default=False)
+    parser.add_option('-d','--disk',action='store_true',dest='disk',help='display vm disk uuids',default=false)
+    parser.add_option('--debug',action='store_true',dest='debug',help='display debug info',default=false)
     parser.add_option('-i','--import',action='store',type='string',dest='doimport',metavar='FILE',help='import from FILE to [type=xen:importVolGroup]|\n[type=xenserver:importdiskuuid]')
-    parser.add_option('-l','--lvdev',action='store_true',dest='lvdev',help='display vm logical volume devices',default=False)
+    parser.add_option('-l','--lvdev',action='store_true',dest='lvdev',help='display vm logical volume devices',default=false)
     parser.add_option('-t','--type',action='store',type='string',dest='type',metavar='TYPE',help='import to [xen]|[xenserver]',default='xen')
     parser.add_option('-x','--export',action='store',type='string',dest='export',metavar='FILE',help='export from Xen Server or from Logical Volume dev to FILE')
-    parser.add_option('-z','--gzip',action='store_true',dest='gz',help='use compression for import, export, or convert (SLOW!)',default=False)
+    parser.add_option('-z','--gzip',action='store_true',dest='gz',help='use compression for import, export, or convert (SLOW!)',default=false)
     (opts,args)=parser.parse_args()    
     if len(args)<1:
         parser.print_help()
