@@ -27,7 +27,7 @@ def docmd(cmd):
     execute=subprocess.Popen([cmd],shell=True,stdout=subprocess.PIPE)
     return execute.communicate()[0]
 
-def exportvm(vmname,lvdev,destfile,gz=false):
+def exportvm(vmname,lvdev,destfile,gz=False):
     """
     export lvdev to dest
     """
@@ -87,7 +87,7 @@ def exportvm(vmname,lvdev,destfile,gz=false):
     else:
         print('ERROR: vm status:',vmstatus,'vm needs to be halted to migrate')
 
-def importvm(lvdest,sourcefile,vgdest,lvsize,gz=false):
+def importvm(lvdest,sourcefile,vgdest,lvsize,gz=False):
     """
     import a raw vmfile into a logical volume
     """
@@ -139,11 +139,11 @@ def importvm(lvdest,sourcefile,vgdest,lvsize,gz=false):
                 source.close()
                 dest.close()
             finally:
-                print
+                print()
     else:
         print('ERROR: logical volume '+lvdest+' exists')
 
-def importxenserverdisk(sourcefile,diskuuid,vmuuid,gz=false):
+def importxenserverdisk(sourcefile,diskuuid,vmuuid,gz=False):
     """
     import disk from sourcefile into xenserver
     """
@@ -284,7 +284,7 @@ def getvmuuid(vmname):
     except IndexError:
         return 'vm not found'
 
-def reftoraw(refdir,rawfile,gz=false):
+def reftoraw(refdir,rawfile,gz=False):
     """
     take the ref directory of an xva file and create a raw importable file
     """
@@ -300,7 +300,7 @@ def reftoraw(refdir,rawfile,gz=false):
     for dirobj in os.listdir(refdir):
         try:
             numfile=int(dirobj)
-        except ValueError, TypeError:
+        except ValueError as TypeError:
             numfile=0;
         if numfile>numfiles:
             numfiles=numfile
@@ -341,7 +341,7 @@ def reftoraw(refdir,rawfile,gz=false):
                                 break # EOF
                             dest.write(data)
                     else:
-                        #print('\n'+refdir+filename+' not found, skipping...')
+                        #print '\n'+refdir+filename+' not found, skipping...'
                         if gz:
                             dest.write(blankblock)
                         else:
@@ -356,7 +356,7 @@ def reftoraw(refdir,rawfile,gz=false):
                     dest.close()
                     source.close()
                 finally:
-                    print
+                    print()
         else:
             print('ERROR: rawfile '+rawfile+' exists')
     else:
@@ -396,20 +396,20 @@ def vmdktoraw(vmdkfile,rawfile,gz):
 if __name__=='__main__':
     # globals
     global debug
-    debug=false
+    debug=False
     # Hello world
     print('xenmigrate 0.7.4 -- 2011.09.13\n(c)2011 Jolokia Networks and Mark Pace -- jolokianetworks.com\n')
     # process arguments
     from optparse import OptionParser
     parser=OptionParser(usage='%prog [-cdhiltvxz] [vmname]|[exportLVdev]|[importVolGroup]|[importdiskuuid]|[converttofile]')
     parser.add_option('-c','--convert',action='store',type='string',dest='convert',metavar='DIR',help='convert DIR or vmdk to importable rawfile')
-    parser.add_option('-d','--disk',action='store_true',dest='disk',help='display vm disk uuids',default=false)
-    parser.add_option('--debug',action='store_true',dest='debug',help='display debug info',default=false)
+    parser.add_option('-d','--disk',action='store_true',dest='disk',help='display vm disk uuids',default=False)
+    parser.add_option('--debug',action='store_true',dest='debug',help='display debug info',default=False)
     parser.add_option('-i','--import',action='store',type='string',dest='doimport',metavar='FILE',help='import from FILE to [type=xen:importVolGroup]|\n[type=xenserver:importdiskuuid]')
-    parser.add_option('-l','--lvdev',action='store_true',dest='lvdev',help='display vm logical volume devices',default=false)
+    parser.add_option('-l','--lvdev',action='store_true',dest='lvdev',help='display vm logical volume devices',default=False)
     parser.add_option('-t','--type',action='store',type='string',dest='type',metavar='TYPE',help='import to [xen]|[xenserver]',default='xen')
     parser.add_option('-x','--export',action='store',type='string',dest='export',metavar='FILE',help='export from Xen Server or from Logical Volume dev to FILE')
-    parser.add_option('-z','--gzip',action='store_true',dest='gz',help='use compression for import, export, or convert (SLOW!)',default=false)
+    parser.add_option('-z','--gzip',action='store_true',dest='gz',help='use compression for import, export, or convert (SLOW!)',default=False)
     (opts,args)=parser.parse_args()    
     if len(args)<1:
         parser.print_help()
@@ -419,7 +419,7 @@ if __name__=='__main__':
     if opts.disk or opts.lvdev or opts.export:
         vmname=args[0]
         if '/dev' in vmname and opts.export:
-            #print('export dev        :',vmname)
+            #print 'export dev        :',vmname
             pass
         else:
             vmuuid=getvmuuid(vmname)
@@ -519,4 +519,5 @@ if __name__=='__main__':
         else:
             print('ERROR: convert source directory or file does not exist')
             sys.exit(1)
+
 
